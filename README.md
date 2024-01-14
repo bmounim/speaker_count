@@ -1,6 +1,11 @@
 ```markdown
 # Speaker Count Web Application
 
+## Demo
+
+![Alternative text]("image.png")
+
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -26,9 +31,8 @@ The Speaker Count Web Application is a tool that performs speaker diarization on
 - Support for a wide range of audio formats.
 - Real-time or batch processing options.
 
-## Demo
 
-![image](https://github.com/bmounim/speaker_count/assets/89152218/999fd8c7-35fb-43f2-91e2-640ef0d32ed3)
+
 
 
 ## Getting Started
