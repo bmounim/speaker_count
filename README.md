@@ -3,7 +3,11 @@
 
 ## Demo
 
-![Alt text](image.png "Optional title")
+!<img
+  src="image.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 
 ## Table of Contents
