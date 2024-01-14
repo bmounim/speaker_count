@@ -30,9 +30,8 @@ The Speaker Count Web Application is a tool that performs speaker diarization on
 
 ## Demo
 
-[Link to live demo](#) (if available)
+![Alt Text](image.png)
 
-[![Demo Screenshot](demo_screenshot.png)](demo_screenshot.png)
 
 ## Getting Started
 
@@ -62,11 +61,12 @@ Before running the application, make sure you have the following prerequisites i
 
 1. Run the web application:
 
+go to 'src' folder
    ```bash
-   python app.py
+   streamlit run app.py
    ```
 
-2. Access the web application by opening a web browser and navigating to `http://localhost:5000`.
+2. Access the web application by opening a web browser and navigating to `http://localhost:8501`.
 
 3. Upload an audio file or provide a YouTube URL for speaker diarization.
 
@@ -75,11 +75,10 @@ Before running the application, make sure you have the following prerequisites i
 ## Technologies Used
 
 - Python
-- Flask (Web framework)
-- [Speaker Diarization Library or API]
-- HTML/CSS
-- JavaScript
-- [Other technologies used]
+- Streamlit / CSS styling
+- Speaker Diarization pre_trained models
+
+
 
 ## Contributing
 
@@ -89,10 +88,3 @@ Contributions are welcome! Please follow these guidelines:
 2. Create a new branch for your feature or bug fix.
 3. Make your changes and test them.
 4. Create a pull request with a clear description of your changes.
-
-## License
-
-This project is licensed under the [Your License Name] License - see the [LICENSE](LICENSE) file for details.
-```
-
-You can copy and paste this content into your `README.md` file, replacing the placeholders as needed and adding any additional details specific to your project.
