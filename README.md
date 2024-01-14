@@ -1,5 +1,3 @@
-Certainly! Below is a single `README.md` file with the provided content in a well-structured Markdown format:
-
 ```markdown
 # Speaker Count Web Application
 
