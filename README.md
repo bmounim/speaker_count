@@ -1,4 +1,4 @@
-```markdown
+
 # Speaker Count Web Application
 
 ## Demo
