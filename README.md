@@ -3,7 +3,7 @@
 
 ## Demo
 
-![Alternative text]("image.png")
+![Alternative text](image.png)
 
 
 ## Table of Contents
