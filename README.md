@@ -28,7 +28,7 @@ The Speaker Count Web Application is a tool that performs speaker diarization on
 
 ## Demo
 
-![Alt Text](image.png)
+![image](https://github.com/bmounim/speaker_count/assets/89152218/999fd8c7-35fb-43f2-91e2-640ef0d32ed3)
 
 
 ## Getting Started
