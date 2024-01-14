@@ -3,7 +3,7 @@
 
 ## Demo
 
-![Alternative text](image.png)
+![Alt text](image.png "Optional title")
 
 
 ## Table of Contents
