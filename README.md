@@ -25,7 +25,7 @@
 
 ## Overview
 
-The Speaker Count Web Application is a tool that performs speaker diarization on audio files and provides a web interface for users to upload audio files or YouTube URLs to determine the number of unique speakers in the audio. It uses advanced audio processing techniques to analyze and count speakers, making it useful for a variety of applications such as transcription services, content analysis, and more.
+The Speaker Count Web Application is an Artificial Intelligence tool that performs speaker diarization on audio files and provides a web interface for users to upload audio files or YouTube URLs to determine the number of unique speakers in the audio. It uses advanced audio processing techniques to analyze and count speakers, making it useful for a variety of applications such as transcription services, content analysis, and more.
 
 ## Features
 
