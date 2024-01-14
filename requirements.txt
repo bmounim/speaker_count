@@ -6,6 +6,7 @@ speechbrain>=0.5.11
 torchaudio>=0.10.1
 torchvision
 simple_diarizer
+simple-diarizer
 matplotlib
 soundfile
 ipython
