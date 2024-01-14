@@ -1,5 +1,3 @@
-Certainly! Below is a single `README.md` file with the provided content in a well-structured Markdown format:
-
 ```markdown
 # Speaker Count Web Application
 
@@ -88,3 +86,10 @@ Contributions are welcome! Please follow these guidelines:
 2. Create a new branch for your feature or bug fix.
 3. Make your changes and test them.
 4. Create a pull request with a clear description of your changes.
+
+## License
+
+This project is licensed under the [Your License Name] License - see the [LICENSE](LICENSE) file for details.
+```
+
+You can copy and paste this content into your `README.md` file, replacing the placeholders as needed and adding any additional details specific to your project.
