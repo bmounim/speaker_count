@@ -1,5 +1,5 @@
 
-# Speaker Count Web Application
+# Speaker Count AI
 
 ## Demo
 
