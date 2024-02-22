@@ -73,7 +73,7 @@ def main():
                 st.success(f'Number of Speakers Detected: {speakers_count}')
             os.remove(wav_file)
 
-    local_css("style.css")
+    local_css("static/style.css")
 
 if __name__ == "__main__":
     main()
