@@ -16,3 +16,4 @@ cython
 streamlit
 pytubefix
 pyannote.audio
+yt_dlp
