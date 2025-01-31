@@ -1,7 +1,7 @@
 import os
 import tempfile
 from numpy.linalg import LinAlgError
-from pytube import YouTube
+from pytubefix import YouTube
 import soundfile as sf
 from simple_diarizer.diarizer import Diarizer
 
