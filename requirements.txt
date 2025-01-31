@@ -14,5 +14,5 @@ tqdm
 pydub
 cython
 streamlit
-pytube
+pytubefix
 pyannote.audio
