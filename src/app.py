@@ -1,22 +1,43 @@
 import os
 import tempfile
+import logging
 from numpy.linalg import LinAlgError
-from pytubefix import YouTube
+from yt_dlp import YoutubeDL
 import soundfile as sf
 from simple_diarizer.diarizer import Diarizer
+import streamlit as st
 
-import streamlit as st  # For building the web app
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
-# Download and convert a YouTube video to a .wav audio file
+# Download and convert a YouTube video to a .wav audio file using yt_dlp
 def download_youtube_audio(youtube_url):
-    yt = YouTube(youtube_url,'WEB')
-    video = yt.streams.filter(only_audio=True).first()
-    out_file = video.download(output_path="")
-    base, ext = os.path.splitext(out_file)
-    new_file = base + '.wav'
-    os.rename(out_file, new_file)
-    print("Downloaded and converted to", new_file)
-    return new_file
+    try:
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'wav',
+                'preferredquality': '192',
+            }],
+            'outtmpl': '%(title)s.%(ext)s',  # Save file with the video title as the name
+            'quiet': True,  # Suppress yt_dlp output
+        }
+
+        with YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(youtube_url, download=True)
+            audio_file = ydl.prepare_filename(info_dict)
+            base, ext = os.path.splitext(audio_file)
+            new_file = base + '.wav'
+            if os.path.exists(new_file):
+                st.success(f"Downloaded and converted to {new_file}")
+                return new_file
+            else:
+                st.error("Failed to convert the video to a WAV file.")
+                return None
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        return None
 
 # Count the number of speakers in a .wav file
 def count_speakers(wav_file):
@@ -27,20 +48,33 @@ def count_speakers(wav_file):
         unique_labels = {entry['label'] for entry in segments}
         return len(unique_labels)
     except LinAlgError:
+        st.error("Linear algebra error during speaker diarization.")
         return 0
     except AssertionError as error:
         if "Couldn't find any speech during VAD" in str(error):
+            st.error("No speech detected in the audio file.")
             return 0
         else:
+            logging.error(f"Assertion error: {error}")
             raise
     except Exception as error:
-        st.error(f"Unexpected error encountered: {error}")
+        logging.error(f"Unexpected error: {error}")
+        st.error(f"An unexpected error occurred: {error}")
         return None
 
+# Validate uploaded audio file
+def is_valid_audio(file):
+    try:
+        data, samplerate = sf.read(file)
+        return True
+    except Exception:
+        return False
+
 # Apply custom CSS to the Streamlit app
-def local_css(file_name):
+def local_css(file_name, theme_color):
     with open(file_name, "r") as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        css = f.read().replace("{{theme_color}}", theme_color)
+        st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Streamlit Web App
 def main():
@@ -58,22 +92,27 @@ def main():
 
     # Processing uploaded file or YouTube URL
     if youtube_url or uploaded_file:
-        if uploaded_file is not None:
-            temp_file = f"temp_{uploaded_file.name}"
-            with open(temp_file, 'wb') as f:
-                f.write(uploaded_file.getbuffer())
-            speakers_count = count_speakers(temp_file)
-            if speakers_count is not None:
-                st.success(f'Number of Speakers Detected: {speakers_count}')
-            os.remove(temp_file)
-        else:
-            wav_file = download_youtube_audio(youtube_url)
-            speakers_count = count_speakers(wav_file)
-            if speakers_count is not None:
-                st.success(f'Number of Speakers Detected: {speakers_count}')
-            os.remove(wav_file)
+        with st.spinner("Processing..."):
+            if uploaded_file is not None:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+                    temp_file.write(uploaded_file.getbuffer())
+                    temp_file_path = temp_file.name
+                if is_valid_audio(temp_file_path):
+                    speakers_count = count_speakers(temp_file_path)
+                    if speakers_count is not None:
+                        st.success(f'Number of Speakers Detected: {speakers_count}')
+                else:
+                    st.error("Invalid audio file.")
+                os.unlink(temp_file_path)
+            else:
+                wav_file = download_youtube_audio(youtube_url)
+                if wav_file:
+                    speakers_count = count_speakers(wav_file)
+                    if speakers_count is not None:
+                        st.success(f'Number of Speakers Detected: {speakers_count}')
+                    os.remove(wav_file)
 
-    local_css("static/style.css")
+    local_css("static/style.css", theme_color)
 
 if __name__ == "__main__":
     main()
