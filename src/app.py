@@ -27,7 +27,7 @@ def download_youtube_audio(youtube_url):
         with YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(youtube_url, download=True)
             audio_file = ydl.prepare_filename(info_dict)
-            base, ext = os.path.splitext(audio_file)
+            base, _ = os.path.splitext(audio_file)
             new_file = base + '.wav'
             if os.path.exists(new_file):
                 st.success(f"Downloaded and converted to {new_file}")
@@ -41,8 +41,7 @@ def download_youtube_audio(youtube_url):
 
 # Count the number of speakers in a .wav file
 def count_speakers(wav_file):
-    embed_model = 'xvec'
-    diarizer = Diarizer(embed_model=embed_model, cluster_method='sc', window=1.5, period=0.75)
+    diarizer = Diarizer(embed_model='xvec', cluster_method='sc', window=1.5, period=0.75)
     try:
         segments = diarizer.diarize(wav_file, threshold=0.1, num_speakers=None)
         unique_labels = {entry['label'] for entry in segments}
@@ -65,21 +64,24 @@ def count_speakers(wav_file):
 # Validate uploaded audio file
 def is_valid_audio(file):
     try:
-        data, samplerate = sf.read(file)
+        sf.read(file)
         return True
     except Exception:
         return False
 
 # Apply custom CSS to the Streamlit app
 def local_css(file_name, theme_color):
-    with open(file_name, "r") as f:
-        css = f.read().replace("{{theme_color}}", theme_color)
-        st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+    try:
+        with open(file_name, "r") as f:
+            css = f.read().replace("{{theme_color}}", theme_color)
+            st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+    except FileNotFoundError:
+        logging.warning("CSS file not found, skipping custom styles.")
 
 # Streamlit Web App
 def main():
     st.title('Speaker Count Application')
-    st.markdown("""...""")  # Brief description of the app
+    st.markdown("This app counts the number of speakers in an audio file.")
 
     # Sidebar settings
     with st.sidebar:
