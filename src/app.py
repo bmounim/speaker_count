@@ -9,7 +9,7 @@ import streamlit as st  # For building the web app
 
 # Download and convert a YouTube video to a .wav audio file
 def download_youtube_audio(youtube_url):
-    yt = YouTube(youtube_url,use_po_token=True)
+    yt = YouTube(youtube_url,'WEB')
     video = yt.streams.filter(only_audio=True).first()
     out_file = video.download(output_path="")
     base, ext = os.path.splitext(out_file)
