@@ -17,3 +17,5 @@ streamlit
 pytubefix
 pyannote.audio
 yt_dlp
+ffprobe
+ffmpeg
