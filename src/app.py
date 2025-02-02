@@ -13,7 +13,7 @@ import streamlit as st
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-# Download and convert a YouTube video to a .wav audio file using yt-dlp
+# Download and convert a YouTube video to a
 def download_youtube_audio(youtube_url):
     try:
         ydl_opts = {
@@ -129,7 +129,7 @@ def is_valid_audio(file):
 # Streamlit Web App
 def main():
     st.title('Speaker Count Application')
-    st.markdown("This app counts the number of speakers in an audio file.")
+    st.markdown("This app counts the number of speakers in a youtube video or your local audio file.")
 
     # Sidebar settings
     with st.sidebar:
