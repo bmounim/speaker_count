@@ -11,7 +11,6 @@ import streamlit as st
 logging.basicConfig(level=logging.INFO)
 
 # Download and convert a YouTube video to a .wav audio file using yt_dlp
-# Update the download_youtube_audio function with better error handling and headers
 def download_youtube_audio(youtube_url):
     try:
         ydl_opts = {
@@ -43,7 +42,16 @@ def download_youtube_audio(youtube_url):
                 st.error("Failed to download video. It might be restricted or unavailable.")
                 return None
 
-            # Rest of the function remains the same...
+            # Extract file path
+            file_path = ydl.prepare_filename(info_dict).replace('.webm', '.wav').replace('.m4a', '.wav')
+
+            return file_path
+
+    except Exception as e:
+        logging.error(f"Error downloading audio: {e}")
+        st.error(f"An error occurred: {e}")
+        return None
+
 
 # Count the number of speakers in a .wav file
 def count_speakers(wav_file):
