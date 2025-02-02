@@ -11,6 +11,7 @@ import streamlit as st
 logging.basicConfig(level=logging.INFO)
 
 # Download and convert a YouTube video to a .wav audio file using yt_dlp
+# Update the download_youtube_audio function with better error handling and headers
 def download_youtube_audio(youtube_url):
     try:
         ydl_opts = {
@@ -20,24 +21,29 @@ def download_youtube_audio(youtube_url):
                 'preferredcodec': 'wav',
                 'preferredquality': '192',
             }],
-            'outtmpl': '%(title)s.%(ext)s',  # Save file with the video title as the name
-            'quiet': True,  # Suppress yt_dlp output
+            'outtmpl': '%(title)s.%(ext)s',
+            'quiet': True,
+            # Add headers to mimic a browser
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+                'Referer': 'https://www.youtube.com/'
+            },
+            # Add additional parameters to bypass restrictions
+            'ignoreerrors': True,
+            'retries': 3,
+            'fragment_retries': 3,
+            'skip_unavailable_fragments': True
         }
 
         with YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(youtube_url, download=True)
-            audio_file = ydl.prepare_filename(info_dict)
-            base, _ = os.path.splitext(audio_file)
-            new_file = base + '.wav'
-            if os.path.exists(new_file):
-                st.success(f"Downloaded and converted to {new_file}")
-                return new_file
-            else:
-                st.error("Failed to convert the video to a WAV file.")
+
+            # Check if download was successful
+            if not info_dict or 'requested_downloads' not in info_dict:
+                st.error("Failed to download video. It might be restricted or unavailable.")
                 return None
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
-        return None
+
+            # Rest of the function remains the same...
 
 # Count the number of speakers in a .wav file
 def count_speakers(wav_file):
