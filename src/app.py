@@ -89,7 +89,6 @@ def count_speakers(wav_file):
             cluster_method='sc',
             window=1.5,
             period=0.75,
-            vad_threshold=0.5  # Explicit VAD threshold
         )
 
         # Perform diarization
